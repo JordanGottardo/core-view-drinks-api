@@ -84,6 +84,27 @@ namespace DrinksApi.Controllers
 
             return Ok(new GetTotalDto(total));
         }
+
+        [HttpPost("total/pay")]
+        public ActionResult Pay(PayTotalDto payTotalDto)
+        {
+            try
+            {
+                _itemsRepository.Pay(payTotalDto.ToPaymentMethod());
+
+                return NoContent();
+            }
+            catch (ArgumentException e)
+            {
+                _logger.LogError(e, "Unknown payment method provided");
+                return BadRequest();
+            }
+            catch (InvalidPaymentMethodException e)
+            {
+                _logger.LogError(e, "Invalid payment method for basket total");
+                return BadRequest();
+            }
+        }
     }
 
 }

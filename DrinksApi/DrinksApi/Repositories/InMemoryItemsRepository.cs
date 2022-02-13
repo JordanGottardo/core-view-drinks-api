@@ -7,15 +7,20 @@ class InMemoryItemsRepository : IItemsRepository
 {
     #region Private fields
 
-    private readonly List<DrinkItem> _drinks;
+    private List<DrinkItem> _drinks;
     private int _discount;
-    private bool _discountApplied;
+    private const decimal CashPaymentThreshold = 10m;
 
     #endregion
 
     #region Initialization
 
     public InMemoryItemsRepository()
+    {
+        InitDefaults();
+    }
+
+    private void InitDefaults()
     {
         _drinks = new List<DrinkItem>
         {
@@ -44,6 +49,7 @@ class InMemoryItemsRepository : IItemsRepository
                 Quantity = 0,
             }
         };
+        _discount = 0;
     }
 
     #endregion
@@ -64,14 +70,14 @@ class InMemoryItemsRepository : IItemsRepository
     public DrinkItem EditItem(int type, EditDrinkItemDto itemDto)
     {
         var index = GetIndexOfItemWithTypeOrFail(type);
-        _drinks[index].Quantity = itemDto.Quantity;
+        _drinks[index].Quantity = itemDto.Quantity.Value;
 
         return _drinks[index];
     }
 
     public void ApplyDiscount(ApplyDiscountDto applyDiscountDto)
     {
-        _discount = applyDiscountDto.Discount;
+        _discount = applyDiscountDto.Discount.Value;
     }
 
     public decimal GetTotal()
@@ -79,6 +85,18 @@ class InMemoryItemsRepository : IItemsRepository
         var total = _drinks.Sum(item => item.Quantity * item.Price) - _discount;
 
         return total < 0 ? 0 : total;
+    }
+
+    public void Pay(PaymentMethod paymentMethod)
+    {
+        var total = GetTotal();
+
+        if (paymentMethod == PaymentMethod.Cash && total > CashPaymentThreshold)
+        {
+            throw new InvalidPaymentMethodException();
+        }
+
+        InitDefaults();
     }
 
     #region Private fields
@@ -97,4 +115,3 @@ class InMemoryItemsRepository : IItemsRepository
 
     #endregion
 }
-
