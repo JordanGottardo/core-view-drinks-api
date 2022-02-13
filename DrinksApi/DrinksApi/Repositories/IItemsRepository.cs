@@ -9,6 +9,7 @@ namespace DrinksApi.Repositories
         DrinkItem AddItem(int type);
         DrinkItem EditItem(int type, EditDrinkItemDto itemDto);
         void ApplyDiscount(ApplyDiscountDto applyDiscountDto);
+        decimal GetTotal();
     }
 
     public class ItemNotFoundException : Exception

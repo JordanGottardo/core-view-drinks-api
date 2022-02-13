@@ -13,4 +13,6 @@ namespace DrinksApi.Dtos
 
     public record ApplyDiscountDto(
         [Required, Range(1, 20)] int Discount);
+
+    public record GetTotalDto(decimal Total);
 }

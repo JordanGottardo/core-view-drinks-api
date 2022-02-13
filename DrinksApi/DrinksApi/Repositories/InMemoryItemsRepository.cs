@@ -73,6 +73,13 @@ class InMemoryItemsRepository : IItemsRepository
         _discount = applyDiscountDto.Discount;
     }
 
+    public decimal GetTotal()
+    {
+        var total = _drinks.Sum(item => item.Quantity * item.Price) - _discount;
+
+        return total < 0 ? 0 : total;
+    }
+
     #region Private fields
 
     private int GetIndexOfItemWithTypeOrFail(int type)
