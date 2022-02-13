@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DrinksApi.Controllers
 {
     [ApiController]
-    [Route("basket/items")]
+    [Route("basket")]
     public class ItemsController : ControllerBase
     {
         #region Private fields
@@ -27,7 +27,7 @@ namespace DrinksApi.Controllers
 
         #endregion
 
-        [HttpGet]
+        [HttpGet("items")]
         public ActionResult<IEnumerable<DrinkItemDto>> GetAll()
         {
             var items = _itemsRepository.GetItems().ToList();
@@ -37,7 +37,7 @@ namespace DrinksApi.Controllers
             return Ok(items.Select(item => item.AsDto()));
         }
 
-        [HttpPost("{type}")]
+        [HttpPost("items/{type}")]
         public ActionResult<IEnumerable<DrinkItemDto>> Add(int type)
         {
             try
@@ -53,7 +53,7 @@ namespace DrinksApi.Controllers
             }
         }
 
-        [HttpPatch("{type}")]
+        [HttpPatch("items/{type}")]
         public ActionResult<IEnumerable<DrinkItemDto>> ModifyQuantity(int type, EditDrinkItemDto itemDto)
         {
             try
@@ -68,5 +68,15 @@ namespace DrinksApi.Controllers
                 return NotFound();
             }
         }
+
+        [HttpPost("discount")]
+        public ActionResult Add(ApplyDiscountDto applyDiscountDto)
+        {
+            _itemsRepository.ApplyDiscount(applyDiscountDto);
+
+            return NoContent();
+        }
+
     }
+
 }

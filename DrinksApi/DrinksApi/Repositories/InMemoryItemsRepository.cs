@@ -8,6 +8,7 @@ class InMemoryItemsRepository : IItemsRepository
     #region Private fields
 
     private readonly List<DrinkItem> _drinks;
+    private int _discount;
 
     #endregion
 
@@ -65,6 +66,11 @@ class InMemoryItemsRepository : IItemsRepository
         _drinks[index].Quantity = itemDto.Quantity;
 
         return _drinks[index];
+    }
+
+    public void ApplyDiscount(ApplyDiscountDto applyDiscountDto)
+    {
+        _discount = applyDiscountDto.Discount;
     }
 
     #region Private fields

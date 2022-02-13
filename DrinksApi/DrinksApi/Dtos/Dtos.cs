@@ -9,4 +9,8 @@ namespace DrinksApi.Dtos
 
     public record EditDrinkItemDto(
          [Required, Range(0, int.MaxValue)] int Quantity);
+
+
+    public record ApplyDiscountDto(
+        [Required, Range(1, 20)] int Discount);
 }
