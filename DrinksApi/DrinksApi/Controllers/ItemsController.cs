@@ -70,12 +70,13 @@ namespace DrinksApi.Controllers
         }
 
         [HttpPost("discount")]
-        public ActionResult Add(ApplyDiscountDto applyDiscountDto)
+        public ActionResult ApplyDiscount(ApplyDiscountDto applyDiscountDto)
         {
             _itemsRepository.ApplyDiscount(applyDiscountDto);
 
             return NoContent();
         }
+
 
     }
 
