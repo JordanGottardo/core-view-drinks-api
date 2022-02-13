@@ -9,6 +9,7 @@ class InMemoryItemsRepository : IItemsRepository
 
     private readonly List<DrinkItem> _drinks;
     private int _discount;
+    private bool _discountApplied;
 
     #endregion
 

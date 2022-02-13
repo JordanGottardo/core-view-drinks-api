@@ -77,7 +77,7 @@ namespace DrinksApi.Controllers
             return NoContent();
         }
 
-        [HttpGet]
+        [HttpGet("total")]
         public ActionResult<GetTotalDto> GetTotal()
         {
             var total = _itemsRepository.GetTotal();
