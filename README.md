@@ -11,10 +11,10 @@ docker run -p 5000:80 drinks-api
 ```
 
 ## Standalone executable (on Windows)
-Unzip the _invoices-self-contained_ contained in the root of this repository and launch the _DrinksApi.exe_ executable
+Unzip the _drinks-api-self-contained_ contained in the root of this repository and launch the _DrinksApi.exe_ executable
 
 ## Visual Studio
-Open _Invoices/Invoices.sln_ using Visual Studio and run the DrinksApi project
+Open _DrinksApi/DrinksApi.sln_ using Visual Studio and run the DrinksApi project
 
 # Testing the application
 You can test the application by importing the _DrinksApi.postman_collection.json_ included in the root of this repository into your local Postman.
