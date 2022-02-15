@@ -3,7 +3,7 @@ using DrinksApi.Entities;
 
 namespace DrinksApi.Repositories;
 
-class InMemoryItemsRepository : IItemsRepository
+public class InMemoryItemsRepository : IItemsRepository
 {
     #region Private fields
 

@@ -38,13 +38,13 @@ namespace DrinksApi.Controllers
         }
 
         [HttpPost("items/{type}")]
-        public ActionResult<IEnumerable<DrinkItemDto>> Add(int type)
+        public ActionResult<DrinkItemDto> Add(int type)
         {
             try
             {
                 var item = _itemsRepository.AddItem(type);
 
-                return Created(nameof(GetAll), item);
+                return Created(nameof(GetAll), item.AsDto());
             }
             catch (ItemNotFoundException e)
             {
@@ -54,13 +54,13 @@ namespace DrinksApi.Controllers
         }
 
         [HttpPatch("items/{type}")]
-        public ActionResult<IEnumerable<DrinkItemDto>> ModifyQuantity(int type, EditDrinkItemDto itemDto)
+        public ActionResult<DrinkItemDto> ModifyQuantity(int type, EditDrinkItemDto itemDto)
         {
             try
             {
                 var item = _itemsRepository.EditItem(type, itemDto);
 
-                return Created(nameof(GetAll), item);
+                return Ok(item.AsDto());
             }
             catch (Exception e)
             {
@@ -86,7 +86,7 @@ namespace DrinksApi.Controllers
         }
 
         [HttpPost("total/pay")]
-        public ActionResult Pay(PayTotalDto payTotalDto)
+        public ActionResult<Error> Pay(PayTotalDto payTotalDto)
         {
             try
             {
@@ -97,14 +97,13 @@ namespace DrinksApi.Controllers
             catch (ArgumentException e)
             {
                 _logger.LogError(e, "Unknown payment method provided");
-                return BadRequest();
+                return BadRequest(new Error("Unknown payment method provided"));
             }
             catch (InvalidPaymentMethodException e)
             {
                 _logger.LogError(e, "Invalid payment method for basket total");
-                return BadRequest();
+                return BadRequest(new Error("Invalid payment method for basket total"));
             }
         }
     }
-
 }
